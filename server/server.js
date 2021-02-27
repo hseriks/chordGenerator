@@ -10,9 +10,10 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 app.get("/chords", (req,res) => {
 
-    const chord = "c_154";
 
-    db.getChords(chord).then((results)=> {
+    const randNumber = Math.floor(Math.random() * 41);
+
+    db.getChords(randNumber).then((results)=> {
         console.log("results from getchord", results.rows);
         res.json(results.rows[0]);
     

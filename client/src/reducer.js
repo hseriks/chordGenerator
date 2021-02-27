@@ -10,5 +10,17 @@ export function reducer(state = {}, action) {
         console.log("new state in getChords:", state);
     }
 
+    if (action.type === "chords/getRandomChords") {
+        state = {
+            ...state,
+            chords: action.chords,
+        };
+
+        console.log("new state in getChords wButton:", state);
+    }
+
+
+    console.log("new state", state);
+
     return state;
 }

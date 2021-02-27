@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-key */
 
 import { useState, useEffect } from "react";
-import { getChords } from "./action";
+import { getChords, getRandomChords } from "./action";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 export default function chordLaunch() {
 
@@ -13,7 +14,6 @@ export default function chordLaunch() {
     // console.log("chordState1", chordsState.chord_1);
 
     // const [chord, updateChord] = useState("");
-
 
     useEffect(() => {
         console.log("use effect mounted");
@@ -27,9 +27,23 @@ export default function chordLaunch() {
     return (
         <div>
             <h1>Hello user</h1>
+
+            <button
+                onClick={() => dispatch(getChords())}
+                type="submit"
+                include
+                className="btn btn-primary btn-sm btn-block"
+            >
+                New chords
+            </button>
+
             <h1>{chordsState && chordsState.chord_1}</h1>
             <h1>{chordsState && chordsState.chord_2}</h1>
             <h1>{chordsState && chordsState.chord_3}</h1>
+            <h1>{chordsState && chordsState.chord_4}</h1>
+            <h1>{chordsState && chordsState.chord_5}</h1>
+
+            <img src="/A-Major-Chord-Chart-MG.png" />
 
             {/* {chordsState &&
                 chordsState.map((input, index) => {

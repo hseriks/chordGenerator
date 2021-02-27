@@ -6,8 +6,8 @@ const db = spicedPg(
         "postgres:postgres:postgres@localhost:5432/chords"
 );
 
-module.exports.getChords = (chords) => {
+module.exports.getChords = (id) => {
     const q =
-        "SELECT * from chordprogression WHERE chord_prog_id = $1";
-    return db.query(q, [chords]);
+        "SELECT * from chordprogression WHERE id = $1";
+    return db.query(q, [id]);
 };
