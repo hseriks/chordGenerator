@@ -43,7 +43,18 @@ export default function chordLaunch() {
             <h1>{chordsState && chordsState.chord_4}</h1>
             <h1>{chordsState && chordsState.chord_5}</h1>
 
-            <img src="/A-Major-Chord-Chart-MG.png" />
+            <img src={chordsState && chordsState.chord1_url} />
+            <img src={chordsState && chordsState.chord_2_url} />
+            <img src={chordsState && chordsState.chord_3_url} />
+            <img src={chordsState && chordsState.picture_url} />
+
+            <iframe
+                src="https://open.spotify.com/embed/track/1QPkRQ9mFmjPQaOMmsPB9S"
+                width="300"
+                height="380"
+                allowtransparency="true"
+                allow="encrypted-media"
+            ></iframe>
 
             {/* {chordsState &&
                 chordsState.map((input, index) => {

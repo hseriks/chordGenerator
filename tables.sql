@@ -18,17 +18,14 @@ CREATE TABLE chordProgression(
     chord_4 VARCHAR, 
     chord_5 VARCHAR, 
     chord_6 VARCHAR,
-    chord_7 VARCHAR  
+    chord_7 VARCHAR, 
  );
 
 DROP TABLE IF EXISTS songs;
 
 CREATE TABLE songs(
     chord_prog_id VARCHAR,
-    song_1_title VARCHAR,
     song_1_api_link VARCHAR,
-    song_2_title VARCHAR,
     song_2_api_link VARCHAR,
-    song_3_title VARCHAR,
     song_3_api_link VARCHAR
 );
