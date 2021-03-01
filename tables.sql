@@ -18,7 +18,9 @@ CREATE TABLE chordProgression(
     chord_4 VARCHAR, 
     chord_5 VARCHAR, 
     chord_6 VARCHAR,
-    chord_7 VARCHAR, 
+    chord_7 VARCHAR,
+    song_url VARCHAR,
+    chord_url VARCHAR
  );
 
 DROP TABLE IF EXISTS songs;

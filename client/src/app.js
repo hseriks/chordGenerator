@@ -27,7 +27,6 @@ export default function chordLaunch() {
     return (
         <div>
             <h1>Hello user</h1>
-
             <button
                 onClick={() => dispatch(getChords())}
                 type="submit"
@@ -36,7 +35,6 @@ export default function chordLaunch() {
             >
                 New chords
             </button>
-
             <h1>{chordsState && chordsState.chord_1}</h1>
             <h1>{chordsState && chordsState.chord_2}</h1>
             <h1>{chordsState && chordsState.chord_3}</h1>
@@ -48,13 +46,25 @@ export default function chordLaunch() {
             <img src={chordsState && chordsState.chord_3_url} />
             <img src={chordsState && chordsState.picture_url} />
 
-            <iframe
-                src="https://open.spotify.com/embed/track/1QPkRQ9mFmjPQaOMmsPB9S"
-                width="300"
-                height="380"
-                allowtransparency="true"
-                allow="encrypted-media"
-            ></iframe>
+            {chordsState && (
+                <iframe
+                    src={`${chordsState.chord_url}`}
+                    width="300"
+                    height="200"
+                    allowtransparency="true"
+                    allow="encrypted-media"
+                ></iframe>
+            )}
+
+            {chordsState && (
+                <iframe
+                    src={`https://open.spotify.com/embed/track/${chordsState.song_url}`}
+                    width="300"
+                    height="380"
+                    allowtransparency="true"
+                    allow="encrypted-media"
+                ></iframe>
+            )}
 
             {/* {chordsState &&
                 chordsState.map((input, index) => {
