@@ -5,6 +5,7 @@ import { createStore, applyMiddleware } from "redux";
 import reduxPromise from "redux-promise";
 import { reducer } from "./reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = createStore(
     reducer,

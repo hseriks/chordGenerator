@@ -4,6 +4,17 @@ import { useState, useEffect } from "react";
 import { getChords, getRandomChords } from "./action";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import Navbar from "react-bootstrap/Navbar";
+import Image from "react-bootstrap/Image";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGuitar } from "@fortawesome/free-solid-svg-icons";
+import { faCog } from "@fortawesome/free-solid-svg-icons";
+import Badge from "react-bootstrap/Badge";
+import { Animated } from "react-animated-css";
+
 
 export default function chordLaunch() {
 
@@ -25,37 +36,78 @@ export default function chordLaunch() {
     // async test for handle submit
 
     return (
-        <div>
-            <h1>Hello user</h1>
-            <button
-                onClick={() => dispatch(getChords())}
-                type="submit"
-                include
-                className="btn btn-primary btn-sm btn-block"
-            >
-                New chords
-            </button>
-            <h1>{chordsState && chordsState.chord_1}</h1>
+        <main className="container-fluid">
+            <Navbar bg="dark" variant="dark">
+                <Animated animationIn="bounce" isVisible={true}>
+                    <div>
+                        <Navbar.Brand>CHORDY</Navbar.Brand>
+                        <FontAwesomeIcon
+                            icon={faGuitar}
+                            size="2x"
+                            color="white"
+                        />
+                    </div>
+                </Animated>
+            </Navbar>
+
+            {/* <h1>{chordsState && chordsState.chord_1}</h1>
             <h1>{chordsState && chordsState.chord_2}</h1>
             <h1>{chordsState && chordsState.chord_3}</h1>
             <h1>{chordsState && chordsState.chord_4}</h1>
-            <h1>{chordsState && chordsState.chord_5}</h1>
+            <h1>{chordsState && chordsState.chord_5}</h1> */}
+            <div>
+                <Row>
+                    <Col>
+                        <Image
+                            src={chordsState && chordsState.chord1_url}
+                            rounded
+                            style={{ height: "5", width: "10vw" }}
+                        />
+                    </Col>
+                
+                    <Col>
+                        <Image
+                            src={chordsState && chordsState.chord_2_url}
+                            rounded
+                            style={{ height: "5", width: "10vw" }}
+                        />
+                    </Col>
+                    <Col>
+                        <Image
+                            src={chordsState && chordsState.chord_3_url}
+                            rounded
+                            style={{ height: "5", width: "10vw" }}
+                        />
+                    </Col>
+                    <Col>
+                        <Image
+                            src={chordsState && chordsState.picture_url}
+                            rounded
+                            style={{ height: "5", width: "10vw" }}
+                        />
+                    </Col>
+                </Row>
+            </div>
+            <div className="d-flex justify-content-center ">
+                <Badge
+                    pill
+                    variant="success"
+                    onClick={() => dispatch(getChords())}
+                    type="submit"
+                    style={{ width: "20vw", height: "5vh" }}
+                >
+                    Get New Chord Progression
+                </Badge>
 
-            <img src={chordsState && chordsState.chord1_url} />
-            <img src={chordsState && chordsState.chord_2_url} />
-            <img src={chordsState && chordsState.chord_3_url} />
-            <img src={chordsState && chordsState.picture_url} />
-
-            {chordsState && (
-                <iframe
-                    src={`${chordsState.chord_url}`}
-                    width="300"
-                    height="200"
-                    allowtransparency="true"
-                    allow="encrypted-media"
-                ></iframe>
-            )}
-
+                <Badge
+                    pill
+                    variant="success"
+                    type="submit"
+                    style={{ width: "3vw" }}
+                >
+                    <FontAwesomeIcon icon={faCog} color="white" />
+                </Badge>
+            </div>
             {chordsState && (
                 <iframe
                     src={`https://open.spotify.com/embed/track/${chordsState.song_url}`}
@@ -65,11 +117,19 @@ export default function chordLaunch() {
                     allow="encrypted-media"
                 ></iframe>
             )}
-
+            {chordsState && (
+                <iframe
+                    src={`${chordsState.chord_url}`}
+                    width="300"
+                    height="200"
+                    allowtransparency="true"
+                    allow="encrypted-media"
+                ></iframe>
+            )}
             {/* {chordsState &&
                 chordsState.map((input, index) => {
                     return <div key={index}>{input}</div>;
                 })} */}
-        </div>
+        </main>
     );
 }
