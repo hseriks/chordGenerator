@@ -49,11 +49,12 @@ app.get("/chords", (req,res) => {
 
 });
 
-app.post("/moreChords", (req,res) => {
-    console.log("req.body id:", req.body);
+app.get("/moreChords/:id", (req,res) => {
+    console.log("req.body:", req.params);
 
-    db.getMoreChords(17).then((results)=> {
+    db.getMoreChords(req.params.id).then((results)=> {
         console.log("results after getting back more chords", results);
+        console.log("results [0]", results.rows[0]);
         res.json(results.rows[0]);
     }).catch((error) => {
         console.log("results after getting back more chords", error);

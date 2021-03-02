@@ -13,7 +13,8 @@ module.exports.getChords = (id) => {
 };
 
 module.exports.getMoreChords = (id) => {
-    const q = "SELECT chord_5, chord_6, chord_7 from chordProgression WHERE id = $1";
+    const q =
+        "SELECT prog.chord_5, prog.chord_6, prog.chord_7, pic1.picture_url AS chord5_url, pic2.picture_url AS chord6_url, pic3.picture_url AS chord7_url from chordProgression AS prog LEFT JOIN chordPictures as pic1 ON prog.chord_5 = pic1.chord LEFT JOIN chordPictures AS pic2 ON prog.chord_6 = pic2.chord LEFT JOIN chordPictures AS pic3 ON prog.chord_7 = pic3.chord WHERE prog.id = $1";
     return db.query(q, [id]);
 };
 
@@ -22,7 +23,8 @@ module.exports.getChordsWJoin = (id) => {
     const q =
         "SELECT prog.id, prog.song_url, prog.chord_url, prog.chord_1, pic1.picture_url AS chord1_url, prog.chord_2, pic2.picture_url AS chord_2_url, prog.chord_3, pic3.picture_url AS chord_3_url, pic4.picture_url, prog.chord_4 FROM chordProgression AS prog LEFT JOIN chordPictures AS pic1 ON prog.chord_1 = pic1.chord LEFT JOIN chordPictures AS pic2 ON prog.chord_2 = pic2.chord LEFT JOIN chordPictures AS pic3 ON prog.chord_3 = pic3.chord LEFT JOIN chordPictures AS pic4 ON prog.chord_4 = pic4.chord WHERE prog.id = $1"; 
     return db.query(q, [id]);
-};
+}; 
+
 
 module.exports.getChordsWJoin2 = (id) => {
     const q =
