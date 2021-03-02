@@ -10,14 +10,14 @@ export async function getChords() {
 }
 
 
-export async function getRandomChords() {
+export async function getMoreChords(chordsState) {
    
-    const { data } = await axios.get("/chords",);
+    const { data } = await axios.post("/moreChords", `${chordsState}`);
     console.log("data from db after requesting chords wButton", data);
-    return {
-        type: "chords/GetRandomChords",
-        randomChords: data,
-    };
+    // return {
+    //     type: "chords/GetRandomChords",
+    //     randomChords: data,
+    // };
 
 
 }

@@ -49,6 +49,17 @@ app.get("/chords", (req,res) => {
 
 });
 
+app.post("/moreChords", (req,res) => {
+    console.log("req.body id:", req.body);
+
+    db.getMoreChords(17).then((results)=> {
+        console.log("results after getting back more chords", results);
+        res.json(results.rows[0]);
+    }).catch((error) => {
+        console.log("results after getting back more chords", error);
+    });
+});
+
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
