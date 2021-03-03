@@ -11,6 +11,7 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGuitar } from "@fortawesome/free-solid-svg-icons";
+import { faspotify } from "@fortawesome/free-solid-svg-icons";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import Badge from "react-bootstrap/Badge";
 import { Animated } from "react-animated-css";
@@ -40,12 +41,32 @@ export default function chordLaunch() {
 
     // }
 
-     const [show, setShow] = useState(true);
+    const [show, setShow] = useState(true);
 
-     const handleClose = () => setShow(false);
-     const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
 
+    // function getChordsHandler() {
+
+    //     const randNumber = Math.floor(Math.random() * 41);
+
+    //     dispatch(getChords(id));
+    // }
+
+
+    // button hide
+
+    // const [button, setButton] = useState(true);
+      
+    // console.log(button);
+
+    // const handleclick = () => setButton(false);
+    // const handlPrio= () => setButton(true);
+
+    // function disable() {
+    //     {handleclick};
+    // }
 
     useEffect(() => {
         console.log("use effect mounted");
@@ -73,7 +94,7 @@ export default function chordLaunch() {
 
             <Row>
                 <Col sm={4}></Col>
-                <Col sm={4}></Col>  
+                <Col sm={4}></Col>
                 <Col sm={2}></Col>
                 <Col sm={1}>
                     {" "}
@@ -87,7 +108,7 @@ export default function chordLaunch() {
             </Row>
 
             <Row>
-                <Col sm={3}>
+                {/* <Col sm={3}>
                     {" "}
                     {chordsState && (
                         <iframe
@@ -98,14 +119,18 @@ export default function chordLaunch() {
                             allow="encrypted-media"
                         ></iframe>
                     )}
-                </Col>
+                </Col> */}
 
-                <Col sm={7}>
+                <Col sm={12}>
                     <div className="d-flex justify-content-center ">
                         <Row>
                             <Col>
                                 <Image
-                                    src={chordsState && chordsState.chord1_url}
+                                    src={
+                                        chordsState &&
+                                        `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord1_url}`
+                                    }
+                                    // src={chordsState && chordsState.chord1_url}
                                     rounded
                                     style={{ height: "5", width: "6vw" }}
                                 />
@@ -113,21 +138,30 @@ export default function chordLaunch() {
 
                             <Col>
                                 <Image
-                                    src={chordsState && chordsState.chord_2_url}
+                                    src={
+                                        chordsState &&
+                                        `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord_2_url}`
+                                    }
                                     rounded
                                     style={{ height: "5", width: "6vw" }}
                                 />
                             </Col>
                             <Col>
                                 <Image
-                                    src={chordsState && chordsState.chord_3_url}
+                                    src={
+                                        chordsState &&
+                                        `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord_3_url}`
+                                    }
                                     rounded
                                     style={{ height: "5", width: "6vw" }}
                                 />
                             </Col>
                             <Col>
                                 <Image
-                                    src={chordsState && chordsState.picture_url}
+                                    src={
+                                        chordsState &&
+                                        `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.picture_url}`
+                                    }
                                     rounded
                                     style={{ height: "5", width: "6vw" }}
                                 />
@@ -137,21 +171,33 @@ export default function chordLaunch() {
 
                             <Col>
                                 <Image
-                                    src={chordsState && chordsState.chord5_url}
+                                    src={
+                                        chordsState &&
+                                        chordsState.chord5_url &&
+                                        `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord5_url}`
+                                    }
                                     rounded
                                     style={{ height: "5", width: "6vw" }}
                                 />
                             </Col>
                             <Col>
                                 <Image
-                                    src={chordsState && chordsState.chord6_url}
+                                    src={
+                                        chordsState &&
+                                        chordsState.chord6_url &&
+                                        `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord6_url}`
+                                    }
                                     rounded
                                     style={{ height: "5", width: "6vw" }}
                                 />
                             </Col>
                             <Col>
                                 <Image
-                                    src={chordsState && chordsState.chord7_url}
+                                    src={
+                                        chordsState &&
+                                        chordsState.chord7_url &&
+                                        `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord7_url}`
+                                    }
                                     rounded
                                     style={{ height: "5", width: "6vw" }}
                                 />
@@ -162,7 +208,7 @@ export default function chordLaunch() {
                         {chordsState && (
                             <ReactAudioPlayer
                                 className="d-inline-flex p-1"
-                                src={`${chordsState.chord_url}`}
+                                src={`https://pulse-today.s3.amazonaws.com/Chord_songs/${chordsState.chord_url}`}
                             />
                         )}
                     </div>
@@ -180,25 +226,50 @@ export default function chordLaunch() {
 
                         {
                             <Badge
-                                className="d-inline-flex p-2 justify-content-center align-items-center"
+                                className="d-inline-flex p-2 justify-content-center align-items-center {button}"
+                                disbled
                                 pill
                                 variant="success"
                                 type="submit"
-                                style={{ width: "13vw" }}
+                                style={{ width: "15vw", height: "5vh" }}
                                 // onClick={handleShow}
-                                onClick={() =>
-                                    dispatch(getMoreChords(chordsState))
-                                }
+                                onClick={() => {
+                                    dispatch(getMoreChords(chordsState));
+                                    disable();
+                                }}
                             >
-                                <FontAwesomeIcon icon={faCog} color="white" />{" "}
-                                Get more suitable chords
+                                {/* <FontAwesomeIcon icon={faCog} color="white" />{" "} */}
+                                Get More Suitable Chords
                             </Badge>
                         }
                     </div>
                 </Col>
             </Row>
 
-            <Row></Row>
+            <Row>
+                {/* <col sm={12}>
+                    {" "}
+                    <FontAwesomeIcon icon={faspotify} size="2x" color="green" />
+                </col> */}
+            </Row>
+
+            <Row>
+                <Col
+                    sm={12}
+                    className="d-inline-flex p-2 justify-content-center align-items-center"
+                >
+                    {" "}
+                    {chordsState && (
+                        <iframe
+                            src={`https://open.spotify.com/embed/track/${chordsState.song_url}`}
+                            width="300"
+                            height="100"
+                            allowtransparency="true"
+                            allow="encrypted-media"
+                        ></iframe>
+                    )}
+                </Col>
+            </Row>
 
             {/* <h1>{chordsState && chordsState.chord_1}</h1>
             <h1>{chordsState && chordsState.chord_2}</h1>
