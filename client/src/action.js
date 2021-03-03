@@ -1,11 +1,13 @@
 import axios from "axios";
 
-export async function getChords() {
-    const { data } = await axios.get("/chords",);
+export async function getChords(randNumber) {
+    console.log("rand number passed from app", randNumber);
+    const { data } = await axios.get(`/chords/${randNumber}`);
     console.log("data from db after requesting chords", data);
     return {
         type: "chords/getChords",
         chords: data,
+        id: randNumber
     };
 }
 

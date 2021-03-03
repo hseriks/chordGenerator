@@ -24,21 +24,18 @@ export default function chordLaunch() {
     const dispatch = useDispatch();
     
     const chordsState = useSelector((state) => state.chords);
+
+    const idList = useSelector((state) => state.visitedIds );
     
     console.log("chordState", chordsState);
     // chordsState && console.log("chordst:", chordsState);
 
 
     // console.log("chordState", chordsState.id);
-
     // console.log("chordState1", chordsState.chord_1);
-
     // const [chord, updateChord] = useState("");
-
     // function moreChords() {
     //     dispatch(getMoreChords());
-
-
     // }
 
     const [show, setShow] = useState(true);
@@ -47,12 +44,19 @@ export default function chordLaunch() {
     const handleShow = () => setShow(true);
 
 
-    // function getChordsHandler() {
+    function getChordsHandler() {
 
-    //     const randNumber = Math.floor(Math.random() * 41);
+        const randNumber = Math.floor(Math.random() * 41);
 
-    //     dispatch(getChords(id));
-    // }
+        const visited = idList.some(item => item === randNumber);
+
+        if (visited) {
+            return getChordsHandler();
+        } 
+
+        dispatch(getChords(randNumber));
+        
+    }
 
 
     // button hide
@@ -217,7 +221,8 @@ export default function chordLaunch() {
                             className="d-inline-flex p-2 justify-content-center align-items-center"
                             pill
                             variant="success"
-                            onClick={() => dispatch(getChords())}
+                            // onClick={() => dispatch(getChords())}
+                            onClick={() => getChordsHandler()}
                             type="submit"
                             style={{ width: "15vw", height: "5vh" }}
                         >
@@ -225,9 +230,9 @@ export default function chordLaunch() {
                         </Badge>
 
                         {
-                            <Badge
-                                className="d-inline-flex p-2 justify-content-center align-items-center {button}"
-                                disbled
+                            <Button
+                                className="d-inline-flex p-2 justify-content-center align-items-center disabled"
+                                
                                 pill
                                 variant="success"
                                 type="submit"
@@ -240,7 +245,7 @@ export default function chordLaunch() {
                             >
                                 {/* <FontAwesomeIcon icon={faCog} color="white" />{" "} */}
                                 Get More Suitable Chords
-                            </Badge>
+                            </Button>
                         }
                     </div>
                 </Col>

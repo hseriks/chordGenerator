@@ -1,10 +1,16 @@
-export function reducer(state = {}, action) {
+
+let defaultState = {
+    visitedIds: []
+};
+
+export function reducer(state = defaultState, action) {
     // this checks the actions  and updates the state based on data passed. Which is then passed on to the global state
 
     if (action.type === "chords/getChords") {
         state = {
             ...state,
             chords: action.chords,
+            visitedIds: [...state.visitedIds, action.id]
         };
         console.log("new state in getChords:", state);
     }

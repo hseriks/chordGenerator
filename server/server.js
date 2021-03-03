@@ -8,12 +8,13 @@ app.use(compression());
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
-app.get("/chords", (req,res) => {
+app.get("/chords/:id", (req,res) => {
+    console.log("req.body:", req.params.id);
 
 
-    const randNumber = Math.floor(Math.random() * 41);
+    // const randNumber = Math.floor(Math.random() * 41);
 
-    db.getChordsWJoin(randNumber).then((results)=> {
+    db.getChordsWJoin(req.params.id).then((results)=> {
         console.log("results from getchord", results.rows);
 
         // const chord1 = results.rows[0].chord_1;
