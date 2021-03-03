@@ -9,10 +9,16 @@ import Image from "react-bootstrap/Image";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+import Table from "react-bootstrap/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGuitar } from "@fortawesome/free-solid-svg-icons";
-import { faspotify } from "@fortawesome/free-solid-svg-icons";
+import { faHeadphones } from "@fortawesome/free-solid-svg-icons";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faExpand } from "@fortawesome/free-solid-svg-icons";
+import { faRandom } from "@fortawesome/free-solid-svg-icons";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import ListGroup from "react-bootstrap/ListGroup";
 import Badge from "react-bootstrap/Badge";
 import { Animated } from "react-animated-css";
 import ReactAudioPlayer from "react-audio-element";
@@ -20,16 +26,14 @@ import Modal from "react-bootstrap/Modal";
 
 
 export default function chordLaunch() {
-
     const dispatch = useDispatch();
-    
+
     const chordsState = useSelector((state) => state.chords);
 
-    const idList = useSelector((state) => state.visitedIds );
-    
+    const idList = useSelector((state) => state.visitedIds);
+
     console.log("chordState", chordsState);
     // chordsState && console.log("chordst:", chordsState);
-
 
     // console.log("chordState", chordsState.id);
     // console.log("chordState1", chordsState.chord_1);
@@ -38,31 +42,35 @@ export default function chordLaunch() {
     //     dispatch(getMoreChords());
     // }
 
+    const [savedChords, saveChords] = useState([]);
+
+    console.log("saved chords", savedChords);
+
     const [show, setShow] = useState(true);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-
     function getChordsHandler() {
-
         const randNumber = Math.floor(Math.random() * 41);
 
-        const visited = idList.some(item => item === randNumber);
+        const visited = idList.some((item) => item === randNumber);
 
         if (visited) {
             return getChordsHandler();
-        } 
+        }
 
         dispatch(getChords(randNumber));
-        
     }
 
+    // function disable() {
+    //     var disableButton = true;
+    // }
 
     // button hide
 
     // const [button, setButton] = useState(true);
-      
+
     // console.log(button);
 
     // const handleclick = () => setButton(false);
@@ -72,11 +80,14 @@ export default function chordLaunch() {
     //     {handleclick};
     // }
 
+    const [button, setColor] = useState(false);
+
+    // const disableButton = () => setColor(true);
+
     useEffect(() => {
         console.log("use effect mounted");
-        dispatch(getChords());
+        dispatch(getChords(1));
         // the issue now is that im now update use state
-        
     }, []);
 
     // async test for handle submit
@@ -135,7 +146,7 @@ export default function chordLaunch() {
                                         `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord1_url}`
                                     }
                                     // src={chordsState && chordsState.chord1_url}
-                                    rounded
+
                                     style={{ height: "5", width: "6vw" }}
                                 />
                             </Col>
@@ -146,7 +157,6 @@ export default function chordLaunch() {
                                         chordsState &&
                                         `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord_2_url}`
                                     }
-                                    rounded
                                     style={{ height: "5", width: "6vw" }}
                                 />
                             </Col>
@@ -156,7 +166,6 @@ export default function chordLaunch() {
                                         chordsState &&
                                         `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord_3_url}`
                                     }
-                                    rounded
                                     style={{ height: "5", width: "6vw" }}
                                 />
                             </Col>
@@ -164,9 +173,9 @@ export default function chordLaunch() {
                                 <Image
                                     src={
                                         chordsState &&
+                                        chordsState.picture_url &&
                                         `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.picture_url}`
                                     }
-                                    rounded
                                     style={{ height: "5", width: "6vw" }}
                                 />
                             </Col>
@@ -180,7 +189,6 @@ export default function chordLaunch() {
                                         chordsState.chord5_url &&
                                         `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord5_url}`
                                     }
-                                    rounded
                                     style={{ height: "5", width: "6vw" }}
                                 />
                             </Col>
@@ -191,7 +199,6 @@ export default function chordLaunch() {
                                         chordsState.chord6_url &&
                                         `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord6_url}`
                                     }
-                                    rounded
                                     style={{ height: "5", width: "6vw" }}
                                 />
                             </Col>
@@ -202,7 +209,6 @@ export default function chordLaunch() {
                                         chordsState.chord7_url &&
                                         `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord7_url}`
                                     }
-                                    rounded
                                     style={{ height: "5", width: "6vw" }}
                                 />
                             </Col>
@@ -222,31 +228,58 @@ export default function chordLaunch() {
                             pill
                             variant="success"
                             // onClick={() => dispatch(getChords())}
-                            onClick={() => getChordsHandler()}
+                            onClick={() => {
+                                getChordsHandler();
+                                setColor(false);
+                            }}
                             type="submit"
                             style={{ width: "15vw", height: "5vh" }}
                         >
-                            Get New Chord Progression
+                            <FontAwesomeIcon
+                                icon={faRandom}
+                                size="1x"
+                                color="black"
+                            />{" "}
+                            &nbsp; Get New Chord Progression
                         </Badge>
 
                         {
-                            <Button
-                                className="d-inline-flex p-2 justify-content-center align-items-center disabled"
-                                
+                            <Badge
+                                // className={
+                                //     disableButton
+                                //         ? "d-inline-flex p-2 justify-content-center align-items-center disabled"
+                                //         : "d-inline-flex p-2 justify-content-center align-items-center"
+                                // }
+
+                                className="d-inline-flex p-2 justify-content-center align-items-center"
                                 pill
-                                variant="success"
+                                variant={button ? "secondary" : "success"}
                                 type="submit"
                                 style={{ width: "15vw", height: "5vh" }}
                                 // onClick={handleShow}
                                 onClick={() => {
                                     dispatch(getMoreChords(chordsState));
-                                    disable();
+                                    setColor(true);
                                 }}
                             >
                                 {/* <FontAwesomeIcon icon={faCog} color="white" />{" "} */}
-                                Get More Suitable Chords
-                            </Button>
+                                <FontAwesomeIcon
+                                    icon={faExpand}
+                                    size="1x"
+                                    color="black"
+                                />
+                                &nbsp; Get More Suitable Chords
+                            </Badge>
                         }
+                        {""}
+                        <FontAwesomeIcon
+                            icon={faHeart}
+                            size="2x"
+                            color="red"
+                            onClick={() => {
+                                saveChords({ ...chordsState });
+                            }}
+                        />
                     </div>
                 </Col>
             </Row>
@@ -276,6 +309,57 @@ export default function chordLaunch() {
                 </Col>
             </Row>
 
+            {/* <Row>My Favorite Chord Progressions</Row>
+
+            <Row>
+                <Table striped bordered hover size="sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Chord 1</th>
+                            <th>Chord 2</th>
+                            <th>Chord 3</th>
+                            <th>Chord 4</th>
+                            <th>Chord 5</th>
+                            <th>Chord 6</th>
+                            <th>Chord 7</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </Table>
+            </Row> */}
+
             {/* <h1>{chordsState && chordsState.chord_1}</h1>
             <h1>{chordsState && chordsState.chord_2}</h1>
             <h1>{chordsState && chordsState.chord_3}</h1>
@@ -285,22 +369,53 @@ export default function chordLaunch() {
             <Modal show={show} onHide={handleClose} size="lg">
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        Welcome to Chordy{" "}
-                        <FontAwesomeIcon
+                        Welcome to Chordy!{" "}
+                        {/* <FontAwesomeIcon
                             icon={faGuitar}
                             size="1x"
                             color="black"
-                        />
+                        /> */}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Here you get random chord progression patterns, often used
-                    in famous pop songs! Press the PLAY button to listen to the
-                    current progression. Play the Spotify song, to listen to a
-                    song that uses the current chosen chord progression. And If
-                    you like the initial progression, press GET MORE CHORDS, to
-                    get even more chords to fit together. Good luck in making
-                    your next hit!{" "}
+                    <ListGroup variant="flush">
+                        <ListGroup.Item action variant="light">
+                            <FontAwesomeIcon
+                                icon={faRandom}
+                                size="1x"
+                                color="black"
+                            />
+                            &nbsp; Here you can quickly play randomized chord
+                            progressions used in famous pop songs,
+                        </ListGroup.Item>
+                        <ListGroup.Item action variant="light">
+                            <FontAwesomeIcon
+                                icon={faHeart}
+                                size="1x"
+                                color="black"
+                            />
+                            &nbsp; save your favorite chord progressions,
+                        </ListGroup.Item>
+                        <ListGroup.Item action variant="light">
+                            <FontAwesomeIcon
+                                icon={faHeadphones}
+                                size="1x"
+                                color="black"
+                            />
+                            &nbsp; listen to Spotify songs using these spesific
+                            chord progression patterns,
+                        </ListGroup.Item>
+
+                        <ListGroup.Item action variant="light">
+                            <FontAwesomeIcon
+                                icon={faExpand}
+                                size="1x"
+                                color="black"
+                            />
+                            &nbsp; and expand on the progressions, by requesting
+                            even more chords!
+                        </ListGroup.Item>
+                    </ListGroup>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handleClose}>
