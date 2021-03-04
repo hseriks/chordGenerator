@@ -94,6 +94,8 @@ export default function chordLaunch() {
     // }
 
     const [button, setColor] = useState(false);
+    const [heart, setHeartColor] = useState(false);
+    const [wobble, setWobble] = useState("");
 
     // const disableButton = () => setColor(true);
 
@@ -244,6 +246,8 @@ export default function chordLaunch() {
                             onClick={() => {
                                 getChordsHandler();
                                 setColor(false);
+                                setHeartColor(false);
+                                setWobble("");
                             }}
                             type="submit"
                             style={{ width: "15vw", height: "5vh" }}
@@ -289,18 +293,24 @@ export default function chordLaunch() {
                         <FontAwesomeIcon
                             icon={faHeart}
                             size="2x"
-                            color="red"
-                            onClick={() => dispatch(savedChords(chordsState))}
-                        />
-                        &nbsp;
-                        <FontAwesomeIcon
-                            icon={faArchive}
-                            size="2x"
-                            color="black"
+                            color={heart ? "red" : "black"}
                             onClick={() => {
-                                // saveChords({ ...chordsState });
+                                dispatch(savedChords(chordsState));
+                                setHeartColor(true);
+                                setWobble("wobble");
                             }}
                         />
+                        &nbsp;
+                        { wobble && <Animated animationIn= {wobble} isVisible={true}>
+                            <FontAwesomeIcon
+                                icon={faArchive}
+                                size="2x"
+                                color="black"
+                                onClick={() => {
+                                    // saveChords({ ...chordsState });
+                                }}
+                            />
+                        </Animated>}
                     </div>
                 </Col>
             </Row>
@@ -327,13 +337,16 @@ export default function chordLaunch() {
             </Row>
 
             <Row>
-                <Col sm={5}> </Col>
-                <div className="d-flex justify-content-center">
+                <Col sm={4}> </Col>
+                <div
+                    className="d-flex justify-content-center"
+                    style={{ width: "30vw" }}
+                >
                     <Table striped bordered hover variant="dark" size="sm">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Saved Chord Progression</th>
+                                <th>Favorite Chord Progressions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -370,20 +383,19 @@ export default function chordLaunch() {
                                 {likedChords[1] && likedChords[1].chord_6}
                                 &nbsp;
                                 {likedChords[1] && likedChords[1].chord_7}
-                                <td></td>
                             </tr>
                             <tr>
                                 <td>3</td>
                                 <td></td>
                             </tr>
-                            <tr>
+                            {/* <tr>
                                 <td>4</td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td>5</td>
                                 <td></td>
-                            </tr>
+                            </tr> */}
                         </tbody>
                     </Table>
                 </div>
