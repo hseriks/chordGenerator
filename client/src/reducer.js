@@ -1,6 +1,7 @@
 
 let defaultState = {
-    visitedIds: []
+    visitedIds: [],
+    favChords: []
 };
 
 export function reducer(state = defaultState, action) {
@@ -23,6 +24,18 @@ export function reducer(state = defaultState, action) {
 
         console.log("new state in getChords wButton:", state);
     }
+
+    if (action.type === "chords/savedChords") {
+        state = {
+            ...state,
+            favChords: [...state.favChords, action.savedChords]
+        };
+
+        console.log("Liked chords list in reducer:", state.favChords);
+    }
+
+
+
 
     console.log("new state", state);
 

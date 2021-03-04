@@ -20,6 +20,14 @@ export async function getMoreChords(chordsState) {
         type: "chords/getExtraChords",
         extraChords: data,
     };
+    
+}
 
 
+export async function savedChords(chordsState) {
+    console.log("saved chords in action:", chordsState);
+    return {
+        type: "chords/savedChords",
+        savedChords: chordsState,
+    };
 }

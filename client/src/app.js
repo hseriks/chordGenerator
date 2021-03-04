@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 
 import { useState, useEffect } from "react";
-import { getChords, getMoreChords } from "./action";
+import { getChords, getMoreChords, savedChords } from "./action";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Navbar from "react-bootstrap/Navbar";
@@ -11,13 +11,16 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import { faGuitar } from "@fortawesome/free-solid-svg-icons";
 import { faHeadphones } from "@fortawesome/free-solid-svg-icons";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faExpand } from "@fortawesome/free-solid-svg-icons";
 import { faRandom } from "@fortawesome/free-solid-svg-icons";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faArchive } from "@fortawesome/free-solid-svg-icons";
 import ListGroup from "react-bootstrap/ListGroup";
 import Badge from "react-bootstrap/Badge";
 import { Animated } from "react-animated-css";
@@ -32,7 +35,12 @@ export default function chordLaunch() {
 
     const idList = useSelector((state) => state.visitedIds);
 
+    const likedChords = useSelector((state) => state.favChords);
+
+    console.log("saved chords in app", likedChords);
+
     console.log("chordState", chordsState);
+
     // chordsState && console.log("chordst:", chordsState);
 
     // console.log("chordState", chordsState.id);
@@ -42,17 +50,22 @@ export default function chordLaunch() {
     //     dispatch(getMoreChords());
     // }
 
-    const [savedChords, saveChords] = useState([]);
+    // const [savedChords, saveChords] = useState([]);
 
-    console.log("saved chords", savedChords);
+
+    // console.log("saved chords in app", savedChords);
 
     const [show, setShow] = useState(true);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    // const display = () => setmodal(false);
+    // const end = () => setmodal(true);
+    // const handleEnd;
+
     function getChordsHandler() {
-        const randNumber = Math.floor(Math.random() * 41);
+        const randNumber = Math.floor(Math.random() * 40) +1 ;
 
         const visited = idList.some((item) => item === randNumber);
 
@@ -147,7 +160,7 @@ export default function chordLaunch() {
                                     }
                                     // src={chordsState && chordsState.chord1_url}
 
-                                    style={{ height: "5", width: "6vw" }}
+                                    style={{ height: "20vh", width: "5" }}
                                 />
                             </Col>
 
@@ -157,7 +170,7 @@ export default function chordLaunch() {
                                         chordsState &&
                                         `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord_2_url}`
                                     }
-                                    style={{ height: "5", width: "6vw" }}
+                                    style={{ height: "20vh", width: "5" }}
                                 />
                             </Col>
                             <Col>
@@ -166,7 +179,7 @@ export default function chordLaunch() {
                                         chordsState &&
                                         `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord_3_url}`
                                     }
-                                    style={{ height: "5", width: "6vw" }}
+                                    style={{ height: "20vh", width: "5" }}
                                 />
                             </Col>
                             <Col>
@@ -176,7 +189,7 @@ export default function chordLaunch() {
                                         chordsState.picture_url &&
                                         `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.picture_url}`
                                     }
-                                    style={{ height: "5", width: "6vw" }}
+                                    style={{ height: "20vh", width: "5" }}
                                 />
                             </Col>
 
@@ -189,7 +202,7 @@ export default function chordLaunch() {
                                         chordsState.chord5_url &&
                                         `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord5_url}`
                                     }
-                                    style={{ height: "5", width: "6vw" }}
+                                    style={{ height: "20vh", width: "5" }}
                                 />
                             </Col>
                             <Col>
@@ -199,7 +212,7 @@ export default function chordLaunch() {
                                         chordsState.chord6_url &&
                                         `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord6_url}`
                                     }
-                                    style={{ height: "5", width: "6vw" }}
+                                    style={{ height: "20vh", width: "5" }}
                                 />
                             </Col>
                             <Col>
@@ -209,7 +222,7 @@ export default function chordLaunch() {
                                         chordsState.chord7_url &&
                                         `https://pulse-today.s3.amazonaws.com/Pictures+chords/${chordsState.chord7_url}`
                                     }
-                                    style={{ height: "5", width: "6vw" }}
+                                    style={{ height: "20vh", width: "5" }}
                                 />
                             </Col>
                         </Row>
@@ -242,7 +255,7 @@ export default function chordLaunch() {
                             />{" "}
                             &nbsp; Get New Chord Progression
                         </Badge>
-
+                        &nbsp;
                         {
                             <Badge
                                 // className={
@@ -271,13 +284,21 @@ export default function chordLaunch() {
                                 &nbsp; Get More Suitable Chords
                             </Badge>
                         }
+                        &nbsp;
                         {""}
                         <FontAwesomeIcon
                             icon={faHeart}
                             size="2x"
                             color="red"
+                            onClick={() => dispatch(savedChords(chordsState))}
+                        />
+                        &nbsp;
+                        <FontAwesomeIcon
+                            icon={faArchive}
+                            size="2x"
+                            color="black"
                             onClick={() => {
-                                saveChords({ ...chordsState });
+                                // saveChords({ ...chordsState });
                             }}
                         />
                     </div>
@@ -285,29 +306,90 @@ export default function chordLaunch() {
             </Row>
 
             <Row>
-                {/* <col sm={12}>
-                    {" "}
-                    <FontAwesomeIcon icon={faspotify} size="2x" color="green" />
-                </col> */}
+                <Col sm={4}> </Col>
+
+                <Col sm={4}>
+                    <div
+                        className="d-flex justify-content-center"
+                        style={{ backgroundcolor: "grey", padding: 35 }}
+                    >
+                        {chordsState && (
+                            <iframe
+                                src={`https://open.spotify.com/embed/track/${chordsState.song_url}`}
+                                width="300"
+                                height="85"
+                                allowtransparency="true"
+                                allow="encrypted-media"
+                            ></iframe>
+                        )}
+                    </div>
+                </Col>
             </Row>
 
             <Row>
-                <Col
-                    sm={12}
-                    className="d-inline-flex p-2 justify-content-center align-items-center"
-                >
-                    {" "}
-                    {chordsState && (
-                        <iframe
-                            src={`https://open.spotify.com/embed/track/${chordsState.song_url}`}
-                            width="300"
-                            height="100"
-                            allowtransparency="true"
-                            allow="encrypted-media"
-                        ></iframe>
-                    )}
-                </Col>
+                <Col sm={5}> </Col>
+                <div className="d-flex justify-content-center">
+                    <Table striped bordered hover variant="dark" size="sm">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Saved Chord Progression</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    {likedChords[0] && likedChords[0].chord_1}
+                                    &nbsp;
+                                    {likedChords[0] && likedChords[0].chord_2}
+                                    &nbsp;
+                                    {likedChords[0] && likedChords[0].chord_3}
+                                    &nbsp;
+                                    {likedChords[0] && likedChords[0].chord_4}
+                                    &nbsp;
+                                    {likedChords[0] && likedChords[0].chord_5}
+                                    &nbsp;
+                                    {likedChords[0] && likedChords[0].chord_6}
+                                    &nbsp;
+                                    {likedChords[0] && likedChords[0].chord_7}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                {likedChords[1] && likedChords[1].chord_1}
+                                &nbsp;
+                                {likedChords[1] && likedChords[1].chord_2}
+                                &nbsp;
+                                {likedChords[1] && likedChords[1].chord_3}
+                                &nbsp;
+                                {likedChords[1] && likedChords[1].chord_4}
+                                &nbsp;
+                                {likedChords[1] && likedChords[1].chord_5}
+                                &nbsp;
+                                {likedChords[1] && likedChords[1].chord_6}
+                                &nbsp;
+                                {likedChords[1] && likedChords[1].chord_7}
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </div>
             </Row>
+
+            <Row></Row>
 
             {/* <Row>My Favorite Chord Progressions</Row>
 
@@ -423,6 +505,8 @@ export default function chordLaunch() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            {/* CHORDS MODAL */}
 
             {/* {chordsState &&
                 chordsState.map((input, index) => {
